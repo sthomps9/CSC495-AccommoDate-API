@@ -59,8 +59,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 System.out.println("Authentication set in context");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         user, null,
-                        Collections.singletonList(new SimpleGrantedAuthority(user.getRole()))
+                        Collections.singletonList(new SimpleGrantedAuthority(jwtUtil.extractRole(token)))
                 );
+                System.out.println("User roles: " + authToken.getAuthorities());
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);

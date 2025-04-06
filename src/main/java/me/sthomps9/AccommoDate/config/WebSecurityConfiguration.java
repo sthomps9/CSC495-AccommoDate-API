@@ -1,6 +1,7 @@
 package me.sthomps9.AccommoDate.config;
 
 import me.sthomps9.AccommoDate.jwt.JwtAuthFilter;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@EnableMethodSecurity
 @Configuration
 public class WebSecurityConfiguration {
 

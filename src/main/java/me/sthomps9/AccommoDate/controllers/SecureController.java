@@ -13,4 +13,6 @@ public class SecureController {
     public ResponseEntity<String> secureHello() {
         return ResponseEntity.ok("🔒 This is a secure endpoint!");
     }
+
+
 }
