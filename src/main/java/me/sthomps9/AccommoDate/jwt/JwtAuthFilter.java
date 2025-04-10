@@ -50,18 +50,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             Optional<User> optionalUser = userDao.findByEmail(username);
             if (optionalUser.isPresent() && jwtUtil.isTokenValid(token)) {
                 User user = optionalUser.get();
-                System.out.println("Header: " + authHeader);
-                System.out.println("Username from token: " + username);
-                System.out.println("Role from token: " + role);
+//                System.out.println("Header: " + authHeader);
+//                System.out.println("Username from token: " + username);
+//                System.out.println("Role from token: " + role);
 // after extracting user
-                System.out.println("User found in DB: " + user.getEmail() + " with role " + user.getRole());
+//                System.out.println("User found in DB: " + user.getEmail() + " with role " + user.getRole());
 // after setting auth
-                System.out.println("Authentication set in context");
+//                System.out.println("Authentication set in context");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         user, null,
                         Collections.singletonList(new SimpleGrantedAuthority(jwtUtil.extractRole(token)))
                 );
-                System.out.println("User roles: " + authToken.getAuthorities());
+//                System.out.println("User roles: " + authToken.getAuthorities());
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);

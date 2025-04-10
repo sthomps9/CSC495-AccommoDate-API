@@ -18,11 +18,11 @@ public interface ExamDAO {
     @RegisterBeanMapper(Exam.class)
     List<Exam> findByStudentID(@Bind("studentid") String studentid);
 
-    @SqlQuery("SELECT * FROM exams WHERE examdate = :date")
+    @SqlQuery("SELECT * FROM exams WHERE examdate = :date ORDER BY examtime")
     @RegisterBeanMapper(Exam.class)
     List<Exam> getByDate(@Bind("date") Date date);
 
-    @SqlUpdate("insert into exams values (:examid, :crn, :examdate, :examtime, :studentid, :examlocation, :examconfirmed, :examcomplete, :examonline, :examduration)")
+    @SqlUpdate("insert into exams values (:examid, :crn, :examdate, :examtime, :studentid, :examlocation, :examconfirmed, :examcomplete, :examonline, :examduration, :note)")
     void addExam(
             @Bind("examid") String examid,
             @Bind("crn") int crn,
@@ -33,7 +33,8 @@ public interface ExamDAO {
             @Bind("examconfirmed") boolean examconfirmed,
             @Bind("examcomplete") boolean examcomplete,
             @Bind("examonline") boolean examonline,
-            @Bind("examduration") int examduration);
+            @Bind("examduration") int examduration,
+            @Bind("note") String note);
 
 
     @SqlQuery("SELECT * FROM exams order by examdate asc")

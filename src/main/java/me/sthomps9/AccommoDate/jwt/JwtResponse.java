@@ -12,4 +12,7 @@ public class JwtResponse {
     public String getToken() {
         return token;
     }
+    public String getID() {
+        return id;
+    }
 }

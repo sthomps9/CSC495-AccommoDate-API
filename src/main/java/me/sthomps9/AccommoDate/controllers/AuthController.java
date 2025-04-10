@@ -44,6 +44,7 @@ public class AuthController {
             if (passwordEncoder.matches(authRequest.getPassword(), user.getPwd())) {
 
                 String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+                System.out.println("ID IN JWT RESPONSE: " + user.getStudentid());
                 return ResponseEntity.ok(new JwtResponse(token, user.getStudentid()));
             }
         }

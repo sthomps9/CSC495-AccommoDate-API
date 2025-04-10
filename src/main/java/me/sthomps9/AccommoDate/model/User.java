@@ -8,6 +8,23 @@ public class User {
     public String email;
     public String pwd;
     public String role;
+    double timeextension;
+    boolean scribe;
+    boolean reader;
+    boolean wordprocessor;
+
+    public double getTimeextension() { return timeextension; }
+    public void setTimeextension(double timeextension) {
+        this.timeextension = timeextension;
+    }
+
+    public void setScribe(boolean scribe) { this.scribe = scribe; }
+    public void setReader(boolean reader) { this.reader = reader; }
+    public void setWordprocessor(boolean wordprocessor) { this.wordprocessor = wordprocessor; }
+
+    public boolean isScribe() { return scribe; }
+    public boolean isReader() { return reader; }
+    public boolean isWordprocessor() { return wordprocessor; }
 
     public String getStudentid() {
         return studentid;

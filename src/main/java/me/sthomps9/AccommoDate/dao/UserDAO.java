@@ -24,6 +24,10 @@ public interface UserDAO {
     @RegisterBeanMapper(User.class)
     Optional<User> findByID(@Bind("studentid") String studentid);
 
+    @SqlQuery("SELECT crn FROM studentcourses WHERE studentid = :studentid")
+//    @RegisterBeanMapper(User.class)
+    List<Integer> findCRNByID(@Bind("studentid") String studentid);
+
 
 
 }

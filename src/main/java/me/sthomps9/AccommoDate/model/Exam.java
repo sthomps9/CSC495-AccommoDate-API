@@ -22,6 +22,7 @@ public class Exam {
     boolean examcomplete;
     boolean examonline;
     int examduration;
+    String note;
 
     public void writeExam(ExamDAO dao) {
         dao.addExam(
@@ -34,7 +35,8 @@ public class Exam {
                 examconfirmed,
                 examcomplete,
                 examonline,
-                examduration);
+                examduration,
+                note);
     }
 
 
