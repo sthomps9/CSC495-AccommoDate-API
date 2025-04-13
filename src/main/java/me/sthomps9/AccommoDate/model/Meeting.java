@@ -1,19 +1,25 @@
 package me.sthomps9.AccommoDate.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import me.sthomps9.AccommoDate.dao.ExamDAO;
 import me.sthomps9.AccommoDate.dao.MeetingDAO;
+import me.sthomps9.AccommoDate.mapping.LocalDateDeserializer;
+import me.sthomps9.AccommoDate.mapping.LocalDateSerializer;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Meeting {
 
     String meetingid;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    Date meetdate;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    LocalDate meetdate;
     Time meettime;
     String userid;
     String adminid;
@@ -39,11 +45,11 @@ public class Meeting {
         this.meetingid = meetingid;
     }
 
-    public Date getMeetdate() {
+    public LocalDate getMeetdate() {
         return meetdate;
     }
 
-    public void setMeetdate(Date meetdate) {
+    public void setMeetdate(LocalDate meetdate) {
         this.meetdate = meetdate;
     }
 

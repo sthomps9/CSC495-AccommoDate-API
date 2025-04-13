@@ -9,6 +9,7 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,13 +21,38 @@ public interface ExamDAO {
 
     @SqlQuery("SELECT * FROM exams WHERE examdate = :date ORDER BY examtime")
     @RegisterBeanMapper(Exam.class)
-    List<Exam> getByDate(@Bind("date") Date date);
+    List<Exam> getByDate(@Bind("date") LocalDate date);
 
     @SqlUpdate("insert into exams values (:examid, :crn, :examdate, :examtime, :studentid, :examlocation, :examconfirmed, :examcomplete, :examonline, :examduration, :note)")
     void addExam(
             @Bind("examid") String examid,
             @Bind("crn") int crn,
-            @Bind("examdate") Date examdate,
+            @Bind("examdate") LocalDate examdate,
+            @Bind("examtime") Time examtime,
+            @Bind("studentid") String studentid,
+            @Bind("examlocation") String examlocation,
+            @Bind("examconfirmed") boolean examconfirmed,
+            @Bind("examcomplete") boolean examcomplete,
+            @Bind("examonline") boolean examonline,
+            @Bind("examduration") int examduration,
+            @Bind("note") String note);
+
+    @SqlUpdate("update exams set " +
+            "crn = :crn, " +
+            "examdate = :examdate, " +
+            "examtime = :examtime, " +
+            "studentid = :studentid, " +
+            "examlocation = :examlocation, " +
+            "examconfirmed = :examconfirmed, " +
+            "examcomplete = :examcomplete, " +
+            "examonline = :examonline, " +
+            "examduration = :examduration, " +
+            "note = :note " +
+            "where :examid = examid")
+    void updateExam(
+            @Bind("examid") String examid,
+            @Bind("crn") int crn,
+            @Bind("examdate") LocalDate examdate,
             @Bind("examtime") Time examtime,
             @Bind("studentid") String studentid,
             @Bind("examlocation") String examlocation,
@@ -40,4 +66,8 @@ public interface ExamDAO {
     @SqlQuery("SELECT * FROM exams order by examdate asc")
     @RegisterBeanMapper(Exam.class)
     List<Exam> getAll();
+
+    @SqlQuery("SELECT * FROM exams WHERE examdate >= :start and examdate <= :end and studentid = :id ORDER BY examtime")
+    @RegisterBeanMapper(Exam.class)
+    List<Exam> getBetweenDates(@Bind("start") LocalDate start, @Bind("end") LocalDate end, @Bind("id") String id);
 }

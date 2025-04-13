@@ -1,10 +1,23 @@
 package me.sthomps9.AccommoDate.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import me.sthomps9.AccommoDate.dao.ExamDAO;
 
+import me.sthomps9.AccommoDate.mapping.*;
+
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.UUID;
 
@@ -13,8 +26,10 @@ public class Exam {
     String examid;
     int crn;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    Date examdate;
+    //    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    LocalDate examdate;
     Time examtime;
     String studentid;
     String examlocation;
@@ -57,11 +72,11 @@ public class Exam {
         this.crn = crn;
     }
 
-    public Date getExamdate() {
+    public LocalDate getExamdate() {
         return examdate;
     }
 
-    public void setExamdate(Date examdate) {
+    public void setExamdate(LocalDate examdate) {
         this.examdate = examdate;
     }
 
@@ -120,5 +135,31 @@ public class Exam {
     public void setExamduration(int examduration) {
         this.examduration = examduration;
     }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public void updateExam(ExamDAO dao) {
+        System.out.println(examdate);
+        dao.updateExam(
+                examid,
+                crn,
+                examdate,
+                examtime,
+                studentid,
+                examlocation,
+                examconfirmed,
+                examcomplete,
+                examonline,
+                examduration,
+                note);
+    }
+
+
 
 }

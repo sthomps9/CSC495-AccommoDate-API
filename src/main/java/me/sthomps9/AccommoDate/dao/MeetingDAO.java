@@ -1,6 +1,5 @@
 package me.sthomps9.AccommoDate.dao;
 
-import me.sthomps9.AccommoDate.model.Exam;
 import me.sthomps9.AccommoDate.model.Meeting;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
@@ -9,6 +8,7 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface MeetingDAO {
@@ -23,11 +23,19 @@ public interface MeetingDAO {
 
     @SqlQuery("SELECT * FROM meetings WHERE userid = :studentid and meetdate >= :date")
     @RegisterBeanMapper(Meeting.class)
-    List<Meeting> findByStudentID(@Bind("studentid") String studentid, @Bind("date") Date date);
+    List<Meeting> findUpcomingByStudentID(@Bind("studentid") String studentid, @Bind("date") LocalDate date);
 
     @SqlQuery("SELECT * FROM meetings WHERE adminid = :adminid and meetdate >= :date")
     @RegisterBeanMapper(Meeting.class)
-    List<Meeting> findByAdminID(@Bind("adminid") String adminid, @Bind("date") Date date);
+    List<Meeting> findUpcomingByAdminID(@Bind("adminid") String adminid, @Bind("date") LocalDate date);
+
+    @SqlQuery("SELECT * FROM meetings WHERE userid = :studentid and meetdate <= :date and meettime < :time")
+    @RegisterBeanMapper(Meeting.class)
+    List<Meeting> findPriorByStudentID(@Bind("studentid") String studentid, @Bind("date") LocalDate date, @Bind("time") Time time);
+
+    @SqlQuery("SELECT * FROM meetings WHERE adminid = :adminid and meetdate <= :date and meettime < :time")
+    @RegisterBeanMapper(Meeting.class)
+    List<Meeting> findPriorByAdminID(@Bind("adminid") String adminid, @Bind("date") LocalDate date, @Bind("time") Time time);
 
     @SqlUpdate("insert into meetings values (:meetingid, :userid, :adminid, :meettime, :meetdate, :virtual)")
     void addExam(
@@ -35,7 +43,7 @@ public interface MeetingDAO {
             @Bind("userid") String userid,
             @Bind("adminid") String adminid,
             @Bind("meettime") Time meettime,
-            @Bind("meetdate") Date meetdate,
+            @Bind("meetdate") LocalDate meetdate,
             @Bind("virtual") boolean virtual);
 
 
