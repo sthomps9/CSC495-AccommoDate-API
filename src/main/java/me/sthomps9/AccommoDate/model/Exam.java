@@ -36,8 +36,10 @@ public class Exam {
     boolean examconfirmed;
     boolean examcomplete;
     boolean examonline;
+    boolean examrequested;
     int examduration;
     String note;
+    boolean studentnotified;
 
     public void writeExam(ExamDAO dao) {
         dao.addExam(
@@ -51,7 +53,9 @@ public class Exam {
                 examcomplete,
                 examonline,
                 examduration,
-                note);
+                note,
+                examrequested,
+                studentnotified);
     }
 
 
@@ -128,6 +132,22 @@ public class Exam {
         this.examonline = examonline;
     }
 
+    public boolean isStudentnotified() {
+        return studentnotified;
+    }
+
+    public void setStudentnotified(boolean studentnotified) {
+        this.studentnotified = studentnotified;
+    }
+
+    public boolean isExamrequested() {
+        return examrequested;
+    }
+
+    public void setExamrequested(boolean examrequested) {
+        this.examrequested = examrequested;
+    }
+
     public int getExamduration() {
         return examduration;
     }
@@ -145,7 +165,6 @@ public class Exam {
     }
 
     public void updateExam(ExamDAO dao) {
-        System.out.println(examdate);
         dao.updateExam(
                 examid,
                 crn,
@@ -157,7 +176,9 @@ public class Exam {
                 examcomplete,
                 examonline,
                 examduration,
-                note);
+                note,
+                examrequested,
+                studentnotified);
     }
 
 

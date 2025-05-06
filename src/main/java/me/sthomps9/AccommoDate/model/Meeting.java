@@ -7,6 +7,8 @@ import me.sthomps9.AccommoDate.dao.ExamDAO;
 import me.sthomps9.AccommoDate.dao.MeetingDAO;
 import me.sthomps9.AccommoDate.mapping.LocalDateDeserializer;
 import me.sthomps9.AccommoDate.mapping.LocalDateSerializer;
+import me.sthomps9.AccommoDate.mapping.TimeDeserializer;
+import me.sthomps9.AccommoDate.mapping.TimeSerializer;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -20,6 +22,8 @@ public class Meeting {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     LocalDate meetdate;
+    @JsonDeserialize(using = TimeDeserializer.class)
+    @JsonSerialize(using = TimeSerializer.class)
     Time meettime;
     String userid;
     String adminid;

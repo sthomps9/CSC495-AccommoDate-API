@@ -8,6 +8,7 @@ import me.sthomps9.AccommoDate.dao.ExamDAO;
 import me.sthomps9.AccommoDate.dao.UserDAO;
 import me.sthomps9.AccommoDate.model.Course;
 import me.sthomps9.AccommoDate.model.FullExam;
+import me.sthomps9.AccommoDate.model.StudentCourse;
 import me.sthomps9.AccommoDate.model.User;
 import me.sthomps9.AccommoDate.repository.CourseRepository;
 import me.sthomps9.AccommoDate.repository.ExamRepository;
@@ -55,6 +56,22 @@ public class CourseViewController {
             for (Integer i : crns) {
                 Course c = courseDAO.findByCRN(i);
                 if (c != null) courses.add(c);
+            }
+        }
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        return ow.writeValueAsString(courses);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("/getfullbyid/{id}")
+    public String getFullCoursesByID(@PathVariable("id") String id) throws JsonProcessingException {
+        User searching = userDAO.findByID(id).orElse(null);
+        List<StudentCourse> courses = new ArrayList<>();
+        if (searching != null) {
+            List<Integer> crns = userDAO.findCRNByID(id);
+            for (Integer i : crns) {
+                Course c = courseDAO.findByCRN(i);
+                if (c != null) courses.add(new StudentCourse(searching, c));
             }
         }
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();

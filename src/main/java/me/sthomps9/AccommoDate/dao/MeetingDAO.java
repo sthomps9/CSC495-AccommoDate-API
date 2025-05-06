@@ -29,13 +29,16 @@ public interface MeetingDAO {
     @RegisterBeanMapper(Meeting.class)
     List<Meeting> findUpcomingByAdminID(@Bind("adminid") String adminid, @Bind("date") LocalDate date);
 
-    @SqlQuery("SELECT * FROM meetings WHERE userid = :studentid and meetdate <= :date and meettime < :time")
+    @SqlQuery("SELECT * FROM meetings WHERE userid = :studentid and meetdate <= :date")
     @RegisterBeanMapper(Meeting.class)
-    List<Meeting> findPriorByStudentID(@Bind("studentid") String studentid, @Bind("date") LocalDate date, @Bind("time") Time time);
+    List<Meeting> findPriorByStudentID(@Bind("studentid") String studentid, @Bind("date") LocalDate date);
 
-    @SqlQuery("SELECT * FROM meetings WHERE adminid = :adminid and meetdate <= :date and meettime < :time")
+    @SqlUpdate("DELETE FROM meetings WHERE userid = :userid")
+    void purgeMeetingsUser(@Bind("userid") String id);
+
+    @SqlQuery("SELECT * FROM meetings WHERE adminid = :adminid and meetdate <= :date")
     @RegisterBeanMapper(Meeting.class)
-    List<Meeting> findPriorByAdminID(@Bind("adminid") String adminid, @Bind("date") LocalDate date, @Bind("time") Time time);
+    List<Meeting> findPriorByAdminID(@Bind("adminid") String adminid, @Bind("date") LocalDate date);
 
     @SqlUpdate("insert into meetings values (:meetingid, :userid, :adminid, :meettime, :meetdate, :virtual)")
     void addExam(

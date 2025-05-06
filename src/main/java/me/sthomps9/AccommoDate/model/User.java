@@ -1,5 +1,7 @@
 package me.sthomps9.AccommoDate.model;
 
+import me.sthomps9.AccommoDate.dao.UserDAO;
+
 public class User {
     String studentid;
     String fullname;
@@ -82,6 +84,33 @@ public class User {
         this.role = permissionlevel;
     }
 
+    public void updateUser(UserDAO userDAO) {
+        userDAO.update(
+                studentid,
+                fullname,
+                email,
+                timeextension,
+                wordprocessor,
+                scribe,
+                reader
+        );
+    }
+
+    public void addUser(UserDAO userDAO) {
+        userDAO.add(
+                studentid,
+                fullname,
+                preferredname,
+                email,
+                role,
+                title,
+                pwd,
+                timeextension,
+                wordprocessor,
+                scribe,
+                reader
+        );
+    }
 }
 
 

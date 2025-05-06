@@ -12,12 +12,13 @@ import java.util.Map;
 @Component
 public class JwtUtil {
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long expiration = 1000 * 60 * 60; // 1 hour
+    private final long expiration = 1000 * 60 * 60;
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, String role, String id) {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
+        claims.put("id", id);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -34,6 +35,10 @@ public class JwtUtil {
 
     public String extractRole(String token) {
         return (String) parseClaims(token).get("role");
+    }
+
+    public String extractID(String token) {
+        return (String) parseClaims(token).get("id");
     }
 
     public boolean isTokenValid(String token) {
